@@ -93,6 +93,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
+  "id": null,
   "links": [],
   "panels": [
     {
@@ -1071,7 +1072,13 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "columns": [],
+          "columns": [
+            {
+              "selector": "results",
+              "text": "results",
+              "type": "string"
+            }
+          ],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "${DS_AWX_API}"
@@ -1084,11 +1091,29 @@
           "refId": "A",
           "root_selector": "",
           "source": "url",
-          "type": "global",
-          "url": "",
+          "type": "json",
+          "url": "https://awx.ourinvest.com.br/api/v2/jobs",
           "url_options": {
             "data": "",
-            "method": "GET"
+            "method": "GET",
+            "params": [
+              {
+                "key": "failed",
+                "value": "true"
+              },
+              {
+                "key": "order_by",
+                "value": "-id"
+              },
+              {
+                "key": "created__gte",
+                "value": "${__from:date:iso}"
+              },
+              {
+                "key": "created__lte",
+                "value": "${__to:date:iso}"
+              }
+            ]
           }
         }
       ],
@@ -1529,24 +1554,36 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "columns": [],
+          "columns": [
+            {
+              "selector": "results",
+              "text": "results",
+              "type": "string"
+            }
+          ],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "${DS_AWX_API}"
           },
           "filters": [],
           "format": "table",
-          "global_query_id": "inventory_source",
+          "global_query_id": "jobs",
           "hide": false,
           "parser": "backend",
           "refId": "A",
           "root_selector": "",
           "source": "url",
-          "type": "global",
-          "url": "",
+          "type": "json",
+          "url": "https://awx.ourinvest.com.br/api/v2/inventory_sources",
           "url_options": {
             "data": "",
-            "method": "GET"
+            "method": "GET",
+            "params": [
+              {
+                "key": "last_update_failed",
+                "value": "true"
+              }
+            ]
           }
         }
       ],
@@ -1839,24 +1876,44 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "columns": [],
+          "columns": [
+            {
+              "selector": "results",
+              "text": "results",
+              "type": "string"
+            }
+          ],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "${DS_AWX_API}"
           },
           "filters": [],
           "format": "table",
-          "global_query_id": "hosts",
+          "global_query_id": "jobs",
           "hide": false,
           "parser": "backend",
           "refId": "A",
           "root_selector": "",
           "source": "url",
-          "type": "global",
-          "url": "",
+          "type": "json",
+          "url": "https://awx.ourinvest.com.br/api/v2/hosts",
           "url_options": {
             "data": "",
-            "method": "GET"
+            "method": "GET",
+            "params": [
+              {
+                "key": "enabled",
+                "value": "true"
+              },
+              {
+                "key": "type",
+                "value": "host"
+              },
+              {
+                "key": "page_size",
+                "value": "500"
+              }
+            ]
           }
         }
       ],
@@ -2085,14 +2142,13 @@
     "list": []
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "AWX Analytics - Saúde e Capacidade",
   "uid": "awx-health-v1",
-  "version": 42,
-  "weekStart": "",
-  "id": null
+  "version": 43,
+  "weekStart": ""
 }
