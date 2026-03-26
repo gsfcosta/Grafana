@@ -93,7 +93,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
   "links": [],
   "panels": [
     {
@@ -721,7 +720,7 @@
             "uid": "${DS_PROM_LOCAL}"
           },
           "editorMode": "code",
-          "expr": "kube_deployment_status_replicas_unavailable{namespace=\"ansible-awx\", deployment=\"awx-web\"}",
+          "expr": "sum(kube_deployment_status_replicas_unavailable{namespace=\"ansible-awx\", deployment=\"awx-web\"})",
           "hide": false,
           "legendFormat": "AWX Web",
           "range": true,
@@ -733,7 +732,7 @@
             "uid": "${DS_PROM_LOCAL}"
           },
           "editorMode": "code",
-          "expr": "kube_deployment_status_replicas_unavailable{namespace=\"ansible-awx\", deployment=\"awx-task\"}",
+          "expr": "sum(kube_deployment_status_replicas_unavailable{namespace=\"ansible-awx\", deployment=\"awx-task\"})",
           "hide": false,
           "legendFormat": "AWX Task",
           "range": true,
@@ -745,7 +744,7 @@
             "uid": "${DS_PROM_LOCAL}"
           },
           "editorMode": "code",
-          "expr": "kube_deployment_status_replicas_unavailable{namespace=\"ansible-awx\", deployment=\"awx-operator-controller-manager\"}",
+          "expr": "sum(kube_deployment_status_replicas_unavailable{namespace=\"ansible-awx\", deployment=\"awx-operator-controller-manager\"})",
           "hide": false,
           "legendFormat": "AWX Operator",
           "range": true,
@@ -757,7 +756,7 @@
             "uid": "${DS_PROM_LOCAL}"
           },
           "editorMode": "code",
-          "expr": "kube_statefulset_status_replicas_ready{namespace=\"ansible-awx\", statefulset=\"awx-postgres-15\"} - kube_statefulset_status_replicas_available{namespace=\"ansible-awx\", statefulset=\"awx-postgres-15\"}",
+          "expr": "sum(kube_statefulset_status_replicas_ready{namespace=\"ansible-awx\", statefulset=\"awx-postgres-15\"} - kube_statefulset_status_replicas_available{namespace=\"ansible-awx\", statefulset=\"awx-postgres-15\"})",
           "hide": false,
           "legendFormat": "AWX DB",
           "range": true,
@@ -2142,13 +2141,14 @@
     "list": []
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "AWX Analytics - Saúde e Capacidade",
   "uid": "awx-health-v1",
-  "version": 43,
-  "weekStart": ""
+  "version": 44,
+  "weekStart": "",
+  "id": null
 }
