@@ -7,6 +7,14 @@
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_AWX_API",
+      "label": "AWX API",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "yesoreyeram-infinity-datasource",
+      "pluginName": "Infinity"
     }
   ],
   "__elements": {},
@@ -49,9 +57,21 @@
     },
     {
       "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "timeseries",
       "name": "Time series",
       "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "yesoreyeram-infinity-datasource",
+      "name": "Infinity",
+      "version": "3.7.4"
     }
   ],
   "annotations": {
@@ -864,6 +884,1193 @@
       ],
       "title": "Fila e execução de jobs",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_AWX_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "noValue": "Nenhuma job falharam no período selecionado",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "id"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Visualizar Output",
+                    "url": "https://awx.ourinvest.com.br/#/jobs/playbook/${__data.fields.ID}/output"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Tempo de execução"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "canceled": {
+                        "color": "super-light-orange",
+                        "index": 7,
+                        "text": "🟡Cancelado"
+                      },
+                      "error": {
+                        "color": "dark-orange",
+                        "index": 6,
+                        "text": "🟠Erro"
+                      },
+                      "failed": {
+                        "color": "dark-red",
+                        "index": 5,
+                        "text": "🔴Falhou"
+                      },
+                      "new": {
+                        "color": "text",
+                        "index": 0,
+                        "text": "⚪Novo"
+                      },
+                      "pending": {
+                        "color": "text",
+                        "index": 1,
+                        "text": "⚪Pendente"
+                      },
+                      "running": {
+                        "color": "dark-blue",
+                        "index": 3,
+                        "text": "🔵Executando"
+                      },
+                      "successful": {
+                        "color": "dark-green",
+                        "index": 4,
+                        "text": "🟢Bem-sucedido"
+                      },
+                      "waiting": {
+                        "color": "dark-blue",
+                        "index": 2,
+                        "text": "🔵Aguardando"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 104
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Data de Início"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 137
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 116,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Tipo de execução"
+          }
+        ]
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_AWX_API}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "jobs",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "global",
+          "url": "",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Jobs com falha ou cancelada",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "jsonPaths": [],
+            "keepTime": true,
+            "replace": true,
+            "source": "results"
+          }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "labelsToFields": false,
+            "mode": "seriesToRows",
+            "reducers": [
+              "max",
+              "last",
+              "lastNotNull"
+            ]
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "replace": true,
+            "source": "Last"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "allow_simultaneous": true,
+              "artifacts": true,
+              "canceled_on": true,
+              "controller_node": true,
+              "created": false,
+              "description": true,
+              "diff_mode": true,
+              "execution_environment": true,
+              "execution_node": true,
+              "extra_vars": true,
+              "failed": true,
+              "finished": true,
+              "force_handlers": true,
+              "forks": true,
+              "instance_group": true,
+              "inventory": true,
+              "job_explanation": true,
+              "job_slice_count": true,
+              "job_slice_number": true,
+              "job_tags": true,
+              "job_template": true,
+              "job_type": true,
+              "launched_by": true,
+              "limit": true,
+              "modified": true,
+              "organization": true,
+              "passwords_needed_to_start": true,
+              "playbook": true,
+              "project": true,
+              "related": true,
+              "scm_branch": true,
+              "scm_revision": true,
+              "skip_tags": true,
+              "start_at_task": true,
+              "started": true,
+              "summary_fields": true,
+              "timeout": true,
+              "type": true,
+              "unified_job_template": true,
+              "url": true,
+              "use_fact_cache": true,
+              "verbosity": true,
+              "webhook_credential": true,
+              "webhook_guid": true,
+              "webhook_service": true,
+              "work_unit_id": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "allow_simultaneous": 10,
+              "artifacts": 11,
+              "canceled_on": 13,
+              "controller_node": 14,
+              "created": 4,
+              "description": 15,
+              "diff_mode": 16,
+              "elapsed": 6,
+              "execution_environment": 17,
+              "execution_node": 18,
+              "extra_vars": 19,
+              "failed": 20,
+              "finished": 5,
+              "force_handlers": 21,
+              "forks": 22,
+              "id": 0,
+              "instance_group": 23,
+              "inventory": 24,
+              "job_explanation": 7,
+              "job_slice_count": 25,
+              "job_slice_number": 26,
+              "job_tags": 12,
+              "job_template": 27,
+              "job_type": 28,
+              "launch_type": 8,
+              "launched_by": 9,
+              "limit": 29,
+              "modified": 30,
+              "name": 1,
+              "organization": 31,
+              "passwords_needed_to_start": 32,
+              "playbook": 33,
+              "project": 34,
+              "related": 35,
+              "scm_branch": 36,
+              "scm_revision": 37,
+              "skip_tags": 38,
+              "start_at_task": 39,
+              "started": 3,
+              "status": 2,
+              "summary_fields": 40,
+              "timeout": 41,
+              "type": 42,
+              "unified_job_template": 43,
+              "url": 44,
+              "use_fact_cache": 45,
+              "verbosity": 46,
+              "webhook_credential": 47,
+              "webhook_guid": 48,
+              "webhook_service": 49,
+              "work_unit_id": 50
+            },
+            "renameByName": {
+              "created": "Data de Início",
+              "elapsed": "Tempo de execução",
+              "execution_environment": "",
+              "finished": "",
+              "id": "ID",
+              "job_explanation": "Erro da Job",
+              "launch_type": "Tipo de execução",
+              "name": "Nome da Job",
+              "started": "",
+              "status": "Status"
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "",
+                "destinationType": "time",
+                "targetField": "Data de Início"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "formatTime",
+          "options": {
+            "outputFormat": "DD/MM HH:mm:ss",
+            "timeField": "Data de Início",
+            "timezone": "America/Sao_Paulo",
+            "useTimezone": true
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_AWX_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "noValue": "Nenhuma origem de inventário com falha de sincronização",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "id"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Visualizar Output",
+                    "url": "https://awx.ourinvest.com.br/#/inventories/inventory/${__data.fields.inventory}/sources/${__data.fields.ID}/details"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "canceled": {
+                        "color": "super-light-orange",
+                        "index": 7,
+                        "text": "🟡Cancelado"
+                      },
+                      "error": {
+                        "color": "dark-orange",
+                        "index": 6,
+                        "text": "🟠Erro"
+                      },
+                      "failed": {
+                        "color": "dark-red",
+                        "index": 5,
+                        "text": "🔴Falhou"
+                      },
+                      "never updated": {
+                        "color": "text",
+                        "index": 8,
+                        "text": "⚪Nunca Atualizado"
+                      },
+                      "new": {
+                        "color": "text",
+                        "index": 0,
+                        "text": "⚪Novo"
+                      },
+                      "none": {
+                        "color": "text",
+                        "index": 9,
+                        "text": "⚪Nenhuma fonte externa"
+                      },
+                      "pending": {
+                        "color": "text",
+                        "index": 1,
+                        "text": "⚪Pendente"
+                      },
+                      "running": {
+                        "color": "dark-blue",
+                        "index": 3,
+                        "text": "🔵Executando"
+                      },
+                      "successful": {
+                        "color": "dark-green",
+                        "index": 4,
+                        "text": "🟢Bem-sucedido"
+                      },
+                      "waiting": {
+                        "color": "dark-blue",
+                        "index": 2,
+                        "text": "🔵Aguardando"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Data da Sincronização"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 165
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "source"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "azure_rm": {
+                        "index": 5,
+                        "text": "Microsoft Azure Resource Manager"
+                      },
+                      "constructed": {
+                        "index": 1,
+                        "text": "Template additional groups and hostvars at runtime"
+                      },
+                      "controller": {
+                        "index": 10,
+                        "text": "Red Hat Ansible Automation Platform"
+                      },
+                      "ec2": {
+                        "index": 3,
+                        "text": "Amazon EC2"
+                      },
+                      "file": {
+                        "index": 0,
+                        "text": "File, Directory or Script"
+                      },
+                      "gce": {
+                        "index": 4,
+                        "text": "Google Compute Engine"
+                      },
+                      "insights": {
+                        "index": 11,
+                        "text": "Red Hat Insights"
+                      },
+                      "openshift_virtualization": {
+                        "index": 13,
+                        "text": "OpenShift Virtualization"
+                      },
+                      "openstack": {
+                        "index": 8,
+                        "text": "OpenStack"
+                      },
+                      "rhv": {
+                        "index": 9,
+                        "text": "Red Hat Virtualization"
+                      },
+                      "satellite6": {
+                        "index": 7,
+                        "text": "Red Hat Satellite 6"
+                      },
+                      "scm": {
+                        "index": 2,
+                        "text": "Sourced from a Project"
+                      },
+                      "terraform": {
+                        "index": 12,
+                        "text": "Terraform State"
+                      },
+                      "vmware": {
+                        "index": 6,
+                        "text": "VMware vCenter"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "inventory"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 117,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Source"
+          }
+        ]
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_AWX_API}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "inventory_source",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "global",
+          "url": "",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Origem de inventário com falha na sincronização",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "jsonPaths": [],
+            "keepTime": true,
+            "replace": true,
+            "source": "results"
+          }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "labelsToFields": false,
+            "mode": "seriesToRows",
+            "reducers": [
+              "max",
+              "last",
+              "lastNotNull"
+            ]
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "replace": true,
+            "source": "Last"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "allow_simultaneous": true,
+              "artifacts": true,
+              "canceled_on": true,
+              "controller_node": true,
+              "created": true,
+              "credential": true,
+              "custom_virtualenv": true,
+              "description": true,
+              "diff_mode": true,
+              "enabled_value": true,
+              "enabled_var": true,
+              "execution_environment": true,
+              "execution_node": true,
+              "extra_vars": true,
+              "failed": true,
+              "finished": true,
+              "force_handlers": true,
+              "forks": true,
+              "host_filter": true,
+              "instance_group": true,
+              "inventory": false,
+              "job_explanation": true,
+              "job_slice_count": true,
+              "job_slice_number": true,
+              "job_tags": true,
+              "job_template": true,
+              "job_type": true,
+              "last_job_failed": true,
+              "last_update_failed": true,
+              "last_updated": true,
+              "launched_by": true,
+              "limit": true,
+              "modified": true,
+              "next_job_run": true,
+              "organization": true,
+              "overwrite": true,
+              "overwrite_vars": true,
+              "passwords_needed_to_start": true,
+              "playbook": true,
+              "project": true,
+              "related": true,
+              "scm_branch": true,
+              "scm_revision": true,
+              "skip_tags": true,
+              "source_path": true,
+              "source_project": true,
+              "source_vars": true,
+              "start_at_task": true,
+              "started": false,
+              "summary_fields": true,
+              "timeout": true,
+              "type": true,
+              "unified_job_template": true,
+              "update_cache_timeout": true,
+              "update_on_launch": true,
+              "url": true,
+              "use_fact_cache": true,
+              "verbosity": true,
+              "webhook_credential": true,
+              "webhook_guid": true,
+              "webhook_service": true,
+              "work_unit_id": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "allow_simultaneous": 10,
+              "artifacts": 11,
+              "canceled_on": 13,
+              "controller_node": 14,
+              "created": 4,
+              "description": 15,
+              "diff_mode": 16,
+              "elapsed": 6,
+              "execution_environment": 17,
+              "execution_node": 18,
+              "extra_vars": 19,
+              "failed": 20,
+              "finished": 5,
+              "force_handlers": 21,
+              "forks": 22,
+              "id": 0,
+              "instance_group": 23,
+              "inventory": 24,
+              "job_explanation": 7,
+              "job_slice_count": 25,
+              "job_slice_number": 26,
+              "job_tags": 12,
+              "job_template": 27,
+              "job_type": 28,
+              "launch_type": 8,
+              "launched_by": 9,
+              "limit": 29,
+              "modified": 30,
+              "name": 1,
+              "organization": 31,
+              "passwords_needed_to_start": 32,
+              "playbook": 33,
+              "project": 34,
+              "related": 35,
+              "scm_branch": 36,
+              "scm_revision": 37,
+              "skip_tags": 38,
+              "start_at_task": 39,
+              "started": 3,
+              "status": 2,
+              "summary_fields": 40,
+              "timeout": 41,
+              "type": 42,
+              "unified_job_template": 43,
+              "url": 44,
+              "use_fact_cache": 45,
+              "verbosity": 46,
+              "webhook_credential": 47,
+              "webhook_guid": 48,
+              "webhook_service": 49,
+              "work_unit_id": 50
+            },
+            "orderByMode": "manual",
+            "renameByName": {
+              "created": "",
+              "elapsed": "Tempo de execução",
+              "execution_environment": "",
+              "finished": "",
+              "id": "ID",
+              "job_explanation": "Erro da Job",
+              "last_job_failed": "",
+              "last_job_run": "Data da Sincronização",
+              "launch_type": "Tipo de execução",
+              "name": "Nome do Source",
+              "next_job_run": "",
+              "overwrite_vars": "",
+              "source": "Source",
+              "source_path": "",
+              "source_project": "",
+              "started": "Data de Início",
+              "status": "Status",
+              "update_cache_timeout": ""
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "Data da Sincronização"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "formatTime",
+          "options": {
+            "outputFormat": "DD/MM HH:mm:ss",
+            "timeField": "Data da Sincronização",
+            "timezone": "America/Sao_Paulo",
+            "useTimezone": true
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_AWX_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "noValue": "Nenhum Host com falha",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "id"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Visualizar Host",
+                    "url": "https://awx.ourinvest.com.br/#/hosts/${__data.fields.ID}/details"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "has_active_failures"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 21
+      },
+      "id": 118,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Source"
+          }
+        ]
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_AWX_API}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "hosts",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "global",
+          "url": "",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Hosts com Falhas",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "jsonPaths": [],
+            "keepTime": true,
+            "replace": true,
+            "source": "results"
+          }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "labelsToFields": false,
+            "mode": "seriesToRows",
+            "reducers": [
+              "max",
+              "last",
+              "lastNotNull"
+            ]
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "delimiter": ",",
+            "format": "json",
+            "replace": true,
+            "source": "Last"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "allow_simultaneous": true,
+              "ansible_facts_modified": true,
+              "artifacts": true,
+              "canceled_on": true,
+              "controller_node": true,
+              "created": true,
+              "credential": true,
+              "custom_virtualenv": true,
+              "description": true,
+              "diff_mode": true,
+              "enabled": true,
+              "enabled_value": true,
+              "enabled_var": true,
+              "execution_environment": true,
+              "execution_node": true,
+              "extra_vars": true,
+              "failed": true,
+              "finished": true,
+              "force_handlers": true,
+              "forks": true,
+              "has_active_failures": false,
+              "has_inventory_sources": true,
+              "host_filter": true,
+              "instance_group": true,
+              "instance_id": true,
+              "inventory": true,
+              "job_explanation": true,
+              "job_slice_count": true,
+              "job_slice_number": true,
+              "job_tags": true,
+              "job_template": true,
+              "job_type": true,
+              "last_job": true,
+              "last_job_failed": true,
+              "last_job_host_summary": true,
+              "last_update_failed": true,
+              "last_updated": true,
+              "launched_by": true,
+              "limit": true,
+              "modified": true,
+              "next_job_run": true,
+              "organization": true,
+              "overwrite": true,
+              "overwrite_vars": true,
+              "passwords_needed_to_start": true,
+              "playbook": true,
+              "project": true,
+              "related": true,
+              "scm_branch": true,
+              "scm_revision": true,
+              "skip_tags": true,
+              "source_path": true,
+              "source_project": true,
+              "source_vars": true,
+              "start_at_task": true,
+              "started": false,
+              "summary_fields": true,
+              "timeout": true,
+              "type": true,
+              "unified_job_template": true,
+              "update_cache_timeout": true,
+              "update_on_launch": true,
+              "url": true,
+              "use_fact_cache": true,
+              "variables": true,
+              "verbosity": true,
+              "webhook_credential": true,
+              "webhook_guid": true,
+              "webhook_service": true,
+              "work_unit_id": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "allow_simultaneous": 10,
+              "artifacts": 11,
+              "canceled_on": 13,
+              "controller_node": 14,
+              "created": 4,
+              "description": 15,
+              "diff_mode": 16,
+              "elapsed": 6,
+              "execution_environment": 17,
+              "execution_node": 18,
+              "extra_vars": 19,
+              "failed": 20,
+              "finished": 5,
+              "force_handlers": 21,
+              "forks": 22,
+              "id": 0,
+              "instance_group": 23,
+              "inventory": 24,
+              "job_explanation": 7,
+              "job_slice_count": 25,
+              "job_slice_number": 26,
+              "job_tags": 12,
+              "job_template": 27,
+              "job_type": 28,
+              "launch_type": 8,
+              "launched_by": 9,
+              "limit": 29,
+              "modified": 30,
+              "name": 1,
+              "organization": 31,
+              "passwords_needed_to_start": 32,
+              "playbook": 33,
+              "project": 34,
+              "related": 35,
+              "scm_branch": 36,
+              "scm_revision": 37,
+              "skip_tags": 38,
+              "start_at_task": 39,
+              "started": 3,
+              "status": 2,
+              "summary_fields": 40,
+              "timeout": 41,
+              "type": 42,
+              "unified_job_template": 43,
+              "url": 44,
+              "use_fact_cache": 45,
+              "verbosity": 46,
+              "webhook_credential": 47,
+              "webhook_guid": 48,
+              "webhook_service": 49,
+              "work_unit_id": 50
+            },
+            "orderByMode": "manual",
+            "renameByName": {
+              "created": "",
+              "elapsed": "Tempo de execução",
+              "execution_environment": "",
+              "finished": "",
+              "has_active_failures": "",
+              "has_inventory_sources": "",
+              "id": "ID",
+              "instance_id": "",
+              "job_explanation": "Erro da Job",
+              "last_job_failed": "",
+              "last_job_run": "Data da Sincronização",
+              "launch_type": "Tipo de execução",
+              "name": "Nome do Host",
+              "next_job_run": "",
+              "overwrite_vars": "",
+              "source": "Source",
+              "source_path": "",
+              "source_project": "",
+              "started": "Data de Início",
+              "status": "Status",
+              "update_cache_timeout": "",
+              "variables": ""
+            }
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "1"
+                  }
+                },
+                "fieldName": "has_active_failures"
+              }
+            ],
+            "match": "any",
+            "type": "include"
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
   "preload": false,
@@ -878,14 +2085,14 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "AWX Analytics - Saúde e Capacidade",
   "uid": "awx-health-v1",
-  "version": 22,
+  "version": 42,
   "weekStart": "",
   "id": null
 }
